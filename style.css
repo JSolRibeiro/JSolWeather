@@ -139,7 +139,6 @@ td {
     text-decoration: none;
 }
 
-
 @media screen and (max-width: 576px) {
     .header-items {
         display: flex;
