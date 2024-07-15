@@ -140,7 +140,7 @@
                         document.getElementById("estado").innerHTML = DataCep.uf;
                         document.getElementById("lat").value = DataGeo.results[0].latitude;
                         document.getElementById("long").value = DataGeo.results[0].longitude;
-                        document.getElementById('result_weather').innerHTML = `Previsão de tempo de acordo com a região: ${returnWeather.current.temperature_2m}`;
+                        document.getElementById('result_weather').innerHTML = `Previsão de tempo de acordo com a região: ${returnWeather.current.temperature_2m}º`;
                     }
 
                 } catch (error) {
