@@ -135,7 +135,6 @@
                     if (DataCep.erro) {
                         alert("CEP Inválido");
                     } else {
-                        console.log(DataCep);
                         document.getElementById("cidade").innerHTML = DataCep.localidade;
                         document.getElementById("bairro").innerHTML = DataCep.bairro;
                         document.getElementById("estado").innerHTML = DataCep.uf;
