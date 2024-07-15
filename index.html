@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Desafio 2 DNC</title>
+</head>
+
+<body>
+
+    <header class="container-fluid header">
+        <div class="container-sm d-flex align-items-center header-items">
+            <div class="flex-grow-1 p-2">
+                <h1 class="logo">JSOLWeather</h1>
+            </div>
+            <div class="links p-2">
+                <a href="">Endereços</a>
+            </div>
+            <div class="links p-2"><a href="">Previsão do tempo</a></div>
+        </div>
+    </header>
+
+    <div class="container-sm bloco-2">
+        <div class="d-flex justify-content-between align-items-center text-align-left bloco-2-items">
+            <h2 class="text">Descubra Mais com Precisão: Previsões do Tempo e endereços em tempo real.</h2>
+            <img src="img/clouds.svg" class="p-2 clouds" alt="">
+        </div>
+    </div>
+
+    <div class="container-sm bloco-3">
+        <div class="row g-4">
+            <div class="col-12">
+                <label for="nome">Primeiro Nome:</label>
+                <input type="text" class="form-control textField" name="" id="nome"
+                    placeholder="Digite seu primeiro nome:" required>
+            </div>
+            <div class="col-12">
+                <label for="email">E-mail</label>
+                <input type="email" name="" id="email" class="form-control textField" placeholder="Insira seu e-mail:">
+            </div>
+            <div class="col-12">
+                <label for="cep">Digite o CEP:</label>
+                <input type="number" name="" id="cep" class="form-control textField" placeholder="Insira o CEP">
+            </div>
+            <div class="col-12">
+                <label for="">Digite a latitude e longitude para saber a previsão:</label>
+            </div>
+            <div class="col-6 latlong">
+                <input type="number" name="" id="lat" class="form-control textField" placeholder="Latitude">
+            </div>
+            <div class="col-6 latlong">
+                <input type="number" name="" id="long" class="form-control textField" placeholder="Longitude">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-100 mt-5" onclick="getAdress()"> Acessar </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-sm bloco-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Resultado da busca por CEP:</h2>
+            <img src="img/location.svg" class="location-img" alt="">
+        </div>
+
+        <div class="table-responsive rounded-4">
+            <table class="table table-borderless tabela overflow-hidden">
+                <thead class="table-header-blue">
+                    <th>Logradouro/nome</th>
+                    <th>Bairro/Distrito</th>
+                    <th>Localidade/UF</th>
+                </thead>
+                <tbody>
+                    <td id="cidade"></td>
+                    <td id="bairro"></td>
+                    <td id="estado"></td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container-sm bloco-5">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Previsão do tempo na região:</h2>
+            <img src="img/cloud.svg" class="clouds" alt="">
+        </div>
+        <div class="container">
+            <div class="d-flex resultado rounded-4 p-2 form-control">
+            Previsão de tempo de acordo com a região: <span id="temperature"></span>° C
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid footer">
+        <div class="d-flex justify-content-end align-items-center">
+            <a href="" class="p-3">Termos de Uso</a>
+            |
+            <a href="" class="p-3">Política de Privacidade</a>
+        </div>
+    </footer>
+
+    <script>
+        async function getAdress() {
+            const CEP = document.getElementById("cep").value;
+            const NOME = document.getElementById("nome").value;
+            const EMAIL = document.getElementById("email").value;
+            const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if(!NOME){
+                alert("Digite seu nome")
+            }else if(!EMAIL){
+                alert("O campo de e-mail não pode estar vazio");
+            }else if(!EMAIL_PATTERN.test(EMAIL)){
+                alert('Por favor, insira um e-mail válido.');
+            }else if (!CEP) {
+                alert("Você não digitou um cep");
+            } else if (CEP.length != 8) {
+                alert("Digite um cep válido")
+            } else {
+                try {
+                    const GetCep = await fetch(`https://viacep.com.br/ws/${CEP}/json/`);
+                    const DataCep = await GetCep.json();
+                    const GetGeo = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${replaceSpaces(DataCep.localidade)}&count=1&language=en&format=json`);
+                    const DataGeo = await GetGeo.json();
+                    const GetWeather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${DataGeo.results[0].latitude}&longitude=${DataGeo.results[0].longitude}&current=temperature_2m`);
+                    const returnWeather = await GetWeather.json();
+                    if (DataCep.erro) {
+                        alert("CEP Inválido");
+                    } else {
+                        console.log(DataCep);
+                        document.getElementById("cidade").innerHTML = DataCep.localidade;
+                        document.getElementById("bairro").innerHTML = DataCep.bairro;
+                        document.getElementById("estado").innerHTML = DataCep.uf;
+                        document.getElementById("lat").value = DataGeo.results[0].latitude;
+                        document.getElementById("long").value = DataGeo.results[0].longitude;
+                        document.getElementById("temperature").innerHTML = returnWeather.current.temperature_2m;
+                        console.log(DataGeo)
+                        console.log(returnWeather);
+                    }
+
+                } catch (error) {
+
+                }
+            }
+        }
+
+        function replaceSpaces(str){
+            return str.replace(/ /g, '%20');
+        }
+
+        function validateEmail(email) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailPattern.test(email);
+    }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
