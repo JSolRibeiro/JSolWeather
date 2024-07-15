@@ -53,10 +53,10 @@
                 <label for="">Digite a latitude e longitude para saber a previsão:</label>
             </div>
             <div class="col-6 latlong">
-                <input type="number" name="" id="lat" class="form-control textField" placeholder="Latitude">
+                <input type="number" name="" id="lat" class="form-control textField" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Caso não saiba, informe um CEP" placeholder="Latitude">
             </div>
             <div class="col-6 latlong">
-                <input type="number" name="" id="long" class="form-control textField" placeholder="Longitude">
+                <input type="number" name="" id="long" class="form-control textField" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Caso não saiba, informe um CEP" placeholder="Longitude">
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-100 mt-5" onclick="getAdress()"> Acessar </button>
@@ -94,7 +94,7 @@
         </div>
         <div class="container">
             <div class="d-flex resultado rounded-4 p-2 form-control">
-            Previsão de tempo de acordo com a região: <span id="temperature"></span>° C
+                Previsão de tempo de acordo com a região: <span id="temperature"></span>° C
             </div>
         </div>
     </div>
@@ -114,13 +114,13 @@
             const EMAIL = document.getElementById("email").value;
             const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if(!NOME){
+            if (!NOME) {
                 alert("Digite seu nome")
-            }else if(!EMAIL){
+            } else if (!EMAIL) {
                 alert("O campo de e-mail não pode estar vazio");
-            }else if(!EMAIL_PATTERN.test(EMAIL)){
+            } else if (!EMAIL_PATTERN.test(EMAIL)) {
                 alert('Por favor, insira um e-mail válido.');
-            }else if (!CEP) {
+            } else if (!CEP) {
                 alert("Você não digitou um cep");
             } else if (CEP.length != 8) {
                 alert("Digite um cep válido")
@@ -152,20 +152,26 @@
             }
         }
 
-        function replaceSpaces(str){
+        function replaceSpaces(str) {
             return str.replace(/ /g, '%20');
         }
 
         function validateEmail(email) {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailPattern.test(email);
-    }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
 
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+        <script>
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        </script>
+        
 </body>
 
 </html>
