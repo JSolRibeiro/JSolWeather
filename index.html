@@ -53,10 +53,14 @@
                 <label for="">Digite a latitude e longitude para saber a previsão:</label>
             </div>
             <div class="col-6 latlong">
-                <input type="number" name="" id="lat" class="form-control textField" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Caso não saiba, Preencha o campo CEP" placeholder="Latitude">
+                <input type="number" name="" id="lat" class="form-control textField" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" data-bs-title="Caso não saiba, Preencha o campo CEP"
+                    placeholder="Latitude">
             </div>
             <div class="col-6 latlong">
-                <input type="number" name="" id="long" class="form-control textField" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Caso não saiba, Preencha o campo CEP" placeholder="Longitude">
+                <input type="number" name="" id="long" class="form-control textField" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" data-bs-title="Caso não saiba, Preencha o campo CEP"
+                    placeholder="Longitude">
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-100 mt-5" onclick="getAdress()"> Acessar </button>
@@ -144,7 +148,7 @@
                     }
 
                 } catch (error) {
-
+                    alert(error.message);
                 }
             }
         }
@@ -164,11 +168,11 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-        <script>
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-        </script>
-        
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+
 </body>
 
 </html>
